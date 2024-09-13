@@ -120,7 +120,6 @@ export const sendSMSNotification = async (userId: string, content: string) => {
 export const updateAppointment = async ({
   appointmentId,
   userId,
-  timeZone,
   appointment,
   type,
 }: UpdateAppointmentParams) => {
@@ -133,18 +132,18 @@ export const updateAppointment = async ({
       appointment
     );
 
-    if (!updatedAppointment) throw Error;
+    if (!updatedAppointment) throw Error("Failed to update appointment");
 
-    const smsMessage = `Greetings from CarePulse. ${
-      type === "schedule"
-        ? `Your appointment is confirmed for ${
-            formatDateTime(appointment.schedule!, timeZone).dateTime
-          } with Dr. ${appointment.primaryPhysician}`
-        : `We regret to inform that your appointment for ${
-            formatDateTime(appointment.schedule!, timeZone).dateTime
-          } is cancelled. Reason:  ${appointment.cancellationReason}`
-    }.`;
-    await sendSMSNotification(userId, smsMessage);
+    // const smsMessage = `Greetings from CarePulse. ${
+    //   type === "schedule"
+    //     ? `Your appointment is confirmed for ${
+    //         formatDateTime(appointment.schedule!, timeZone).dateTime
+    //       } with Dr. ${appointment.primaryPhysician}`
+    //     : `We regret to inform that your appointment for ${
+    //         formatDateTime(appointment.schedule!, timeZone).dateTime
+    //       } is cancelled. Reason:  ${appointment.cancellationReason}`
+    // }.`;
+    // await sendSMSNotification(userId, smsMessage);
 
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);
