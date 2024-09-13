@@ -43,6 +43,14 @@ const RegisterForm = ({ user }: { user: User }) => {
   const onSubmit = async (values: z.infer<typeof PatientFormValidation>) => {
     setIsLoading(true);
 
+    if (values.phone === values.emergencyContactNumber) {
+      alert(
+        "Emergency contact number should be different from your phone number."
+      );
+      setIsLoading(false);
+      return;
+    }
+
     // Store file info in form data as
     let formData;
     if (
@@ -311,6 +319,8 @@ const RegisterForm = ({ user }: { user: User }) => {
             <h2 className="sub-header">Identification and Verfication</h2>
           </div>
 
+          {/* identification type */}
+
           <CustomFormField
             fieldType={FormFieldType.SELECT}
             control={form.control}
@@ -325,6 +335,8 @@ const RegisterForm = ({ user }: { user: User }) => {
             ))}
           </CustomFormField>
 
+          {/* identification number */}
+
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
@@ -332,6 +344,8 @@ const RegisterForm = ({ user }: { user: User }) => {
             label="Identification Number"
             placeholder="123456789"
           />
+
+          {/* FileUploader */}
 
           <CustomFormField
             fieldType={FormFieldType.SKELETON}
