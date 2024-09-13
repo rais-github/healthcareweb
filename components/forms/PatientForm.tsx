@@ -36,14 +36,15 @@ export const PatientForm = () => {
         email: values.email,
         phone: values.phone,
       };
-
       const newUser = await createUser(user);
-
       if (newUser) {
+        console.log("New user created:", newUser);
         router.push(`/patients/${newUser.$id}/register`);
+      } else {
+        console.error("Failed to create user: no user returned");
       }
     } catch (error) {
-      console.log(error);
+      console.log("patient form user creation error", error);
     }
 
     setIsLoading(false);
